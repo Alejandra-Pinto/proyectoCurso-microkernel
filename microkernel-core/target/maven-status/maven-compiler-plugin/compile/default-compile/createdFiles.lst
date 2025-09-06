@@ -1,0 +1,4 @@
+co\unicauca\microkernel\core\service\ProjectService.class
+co\unicauca\microkernel\core\service\ReportService.class
+co\unicauca\microkernel\core\plugin\ReportPluginManager.class
+co\unicauca\microkernel\core\app\Application.class
