@@ -5,18 +5,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectService {
+    private final List<Project> projects;
+
+    public ProjectService() {
+        this.projects = new ArrayList<>();
+    }
+
+    /**
+     * Agrega un proyecto a la lista
+     */
+    public void addProject(Project project) {
+        this.projects.add(project);
+    }
+
+    /**
+     * Devuelve todos los proyectos cargados
+     */
     public List<Project> getAll() {
-        List<Project> list = new ArrayList<>();
+        return new ArrayList<>(projects); // se devuelve copia para evitar modificaciones externas
+    }
 
-        list.add(new Project("101", "Sistema de Deteccion de Plagas con IA", "15/05/2025",
-                "Ana Perez", "Luis Gomez", "Dr. Juan Torres", "Investigacien", "Sistemas"));
-
-        list.add(new Project("205", "Automatizacien de Riego por Sensores", "20/06/2025",
-                "Sofia Rojas", null, "Ing. Carlos Mendez", "Practica Profesional", "Electronica"));
-
-        list.add(new Project("310", "Robot de Limpieza Autonomo", "30/07/2025",
-                "Jorge Arias", "Diana Castro", "Dr. Laura Velez", "Investigacion", "Automatica"));
-
-        return list;
+    /**
+     * Limpia todos los proyectos (opcional)
+     */
+    public void clear() {
+        this.projects.clear();
     }
 }

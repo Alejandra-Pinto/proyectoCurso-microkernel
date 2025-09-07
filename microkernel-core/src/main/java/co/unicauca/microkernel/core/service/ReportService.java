@@ -9,9 +9,9 @@ public class ReportService {
     private ReportPluginManager pluginManager;
     private ProjectService projectService;
 
-    public ReportService() {
+    public ReportService(ProjectService projectService) {
         this.pluginManager = ReportPluginManager.getInstance();
-        this.projectService = new ProjectService();
+        this.projectService = projectService;
     }
 
     /**
@@ -22,9 +22,9 @@ public class ReportService {
      */
     public String generateReport(String reportType) {
         try {
-        IReportPlugin plugin = pluginManager.getReportPlugin(reportType);
-        if (plugin == null) {
-            return "Error: plugin no encontrado -> " + reportType;
+            IReportPlugin plugin = pluginManager.getReportPlugin(reportType);
+            if (plugin == null) {
+                return "Error: plugin no encontrado -> " + reportType;
         }
 
         List<Project> data = projectService.getAll();
