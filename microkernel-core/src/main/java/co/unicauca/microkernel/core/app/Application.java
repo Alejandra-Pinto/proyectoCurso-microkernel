@@ -5,6 +5,8 @@ import co.unicauca.microkernel.core.service.ProjectService;
 import co.unicauca.microkernel.core.service.ReportService;
 import co.unicauca.microkernel.core.plugin.ReportPluginManager;
 
+import java.util.Scanner;
+
 public class Application {
 
     public static void main(String[] args) {
@@ -13,28 +15,60 @@ public class Application {
             String basePath = "src/resources/";
             ReportPluginManager.init(basePath);
 
-            // Crear servicio de proyectos y cargar datos desde el main
+            Scanner sc = new Scanner(System.in);
+
+            // Crear servicio de proyectos
             ProjectService projectService = new ProjectService();
-            projectService.addProject(new Project("101", "Sistema de Deteccion de Plagas con IA",
-                    "15/05/2025", "Ana Perez", "Luis Gomez",
-                    "Dr. Juan Torres", "Investigacion", "Sistemas"));
 
-            projectService.addProject(new Project("205", "Automatizacion de Riego por Sensores",
-                    "20/06/2025", "Sofia Rojas", null,
-                    "Ing. Carlos Mendez", "Practica Profesional", "Electronica"));
+            // Preguntar cuántos proyectos quiere ingresar el usuario
+            System.out.print("Digite el numero de los proyectos desea registrar: ");
+            int numProyectos = Integer.parseInt(sc.nextLine());
 
-            projectService.addProject(new Project("310", "Robot de Limpieza Autonomo",
-                    "30/07/2025", "Jorge Arias", "Diana Castro",
-                    "Dr. Laura Velez", "Investigacion", "Automatica"));
+            for (int i = 1; i <= numProyectos; i++) {
+                System.out.println("\n--- Proyecto " + i + " ---");
+                System.out.print("ID del proyecto: ");
+                String id = sc.nextLine();
 
-            // Crear servicio de reportes usando el servicio de proyectos
+                System.out.print("Nombre del proyecto: ");
+                String nombre = sc.nextLine();
+
+                System.out.print("Fecha de inicio (dd/mm/yyyy): ");
+                String fecha = sc.nextLine();
+
+                System.out.print("Estudiante 1: ");
+                String estudiante1 = sc.nextLine();
+
+                System.out.print("Estudiante 2 (opcional, presione Enter si no hay): ");
+                String estudiante2 = sc.nextLine();
+                if (estudiante2.isEmpty()) {
+                    estudiante2 = null;
+                }
+
+                System.out.print("Director: ");
+                String director = sc.nextLine();
+
+                System.out.print("Tipo de proyecto (Investigacion, Practica Profesional, etc.): ");
+                String tipo = sc.nextLine();
+
+                System.out.print("Programa: ");
+                String programa = sc.nextLine();
+
+                // Crear y agregar proyecto
+                projectService.addProject(new Project(id, nombre, fecha,
+                        estudiante1, estudiante2, director, tipo, programa));
+            }
+
+            // Crear servicio de reportes
             ReportService reportService = new ReportService(projectService);
 
-            System.out.println("Reporte en formato HTML:");
-            System.out.println(reportService.generateReport("html"));
+            // Preguntar en qué formato quiere el reporte
+            System.out.print("\nIngrese el formato del reporte (html, json, xml, etc.): ");
+            String formato = sc.nextLine().toLowerCase();
 
-            System.out.println("\nReporte en formato JSON:");
-            System.out.println(reportService.generateReport("json"));
+            System.out.println("\n=== REPORTE GENERADO EN FORMATO " + formato.toUpperCase() + " ===");
+            System.out.println(reportService.generateReport(formato));
+
+            sc.close();
 
         } catch (Exception e) {
             System.err.println("Error al inicializar la aplicacion: " + e.getMessage());
